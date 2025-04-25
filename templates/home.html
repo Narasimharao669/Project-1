@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .form-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border 0.3s ease-in-out;
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            border: 1px solid #28a745;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease-in-out;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .radio-group {
+            display: flex;
+            gap: 15px;
+        }
+        label {
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .modal-content button {
+            margin-top: 15px;
+            padding: 8px 20px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .modal-content button:hover {
+            background-color: #218838;
+        }
+        
+        
+    </style>
+</head>
+<script>
+    function validateForm() {
+        const age = document.forms[0]["age"].value;
+        if (age < 45) {
+            document.getElementById("customAlert").style.display = "flex";
+            return false; // prevent form submission
+        }
+        return true;
+    }
+
+    function closeAlert() {
+        document.getElementById("customAlert").style.display = "none";
+    }
+</script>
+<body>
+    <h2>Heart Disease Prediction</h2>
+    <div class="form-container">
+        <form action="res" onsubmit="return validateForm()">
+            <table>
+                <tr><td>First Name:</td><td><input type="text" name="firstname" placeholder="Enter your name"></td></tr>
+                <tr><td>Age:</td><td><input type="number" name="age"/></td></tr>
+                <tr><td>Gender:</td><td class="radio-group">
+                    <input type="radio" name="gender" value="1" id="male"><label for="male">Male</label>
+                    <input type="radio" name="gender" value="0" id="female"><label for="female">Female</label>
+                </td></tr>
+                <tr><td>Heart Disease:</td><td class="radio-group">
+                    <input type="radio" name="heartdisease" value="1" id="hdYes"><label for="hdYes">Yes</label>
+                    <input type="radio" name="heartdisease" value="0" id="hdNo"><label for="hdNo">No</label>
+                </td></tr>
+                <tr><td>Hypertension:</td><td class="radio-group">
+                    <input type="radio" name="hypertension" value="1" id="htYes"><label for="htYes">Yes</label>
+                    <input type="radio" name="hypertension" value="0" id="htNo"><label for="htNo">No</label>
+                </td></tr>
+                <tr><td>Marital Status:</td><td class="radio-group">
+                    <input type="radio" name="maritalstatus" value="1" id="msYes"><label for="msYes">Married</label>
+                    <input type="radio" name="maritalstatus" value="0" id="msNo"><label for="msNo">Single</label>
+                </td></tr>
+                <tr><td>Residence:</td><td class="radio-group">
+                    <input type="radio" name="residence" value="1" id="urban"><label for="urban">Urban</label>
+                    <input type="radio" name="residence" value="0" id="rural"><label for="rural">Rural</label>
+                </td></tr>
+                <tr><td>Work Type:</td><td class="radio-group">
+                    <input type="radio" name="worktype" value="1" id="wtNever"><label for="wtNever">Never</label>
+                    <input type="radio" name="worktype" value="2" id="wtPrivate"><label for="wtPrivate">Private</label>
+                    <input type="radio" name="worktype" value="0" id="wtPublic"><label for="wtPublic">Public</label>
+                    <input type="radio" name="worktype" value="3" id="wtSelf"><label for="wtSelf">Self</label>
+                </td></tr>
+                <tr><td>Smoking:</td><td class="radio-group">
+                    <input type="radio" name="smoking" value="0" id="smFormerly"><label for="smFormerly">Formerly</label>
+                    <input type="radio" name="smoking" value="1" id="smNever"><label for="smNever">Never</label>
+                    <input type="radio" name="smoking" value="2" id="smSmokes"><label for="smSmokes">Smokes</label>
+                </td></tr>
+                <tr><td>Glucose Level:</td><td><input type='number' name="glu" step="0.01"/></td></tr>
+                <tr><td>BMI:</td><td><input type='number' name="bmi" step="0.01"/></td></tr>
+            </table>
+            <input type="submit" value="Submit"/>
+        </form>
+    </div>
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <p>Note: Age must be greater than 45</p>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+</body>
+</html>
